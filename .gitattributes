@@ -1,0 +1,3 @@
+# Keep notebook files on LF line endings so diffs stay clean whether the file
+# comes from Windows tools, git checkouts, or Google Colab downloads.
+*.ipynb text eol=lf
