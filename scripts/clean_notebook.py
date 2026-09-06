@@ -29,11 +29,23 @@ DICT_KEY_RE = re.compile(
     r"(['\"][A-Za-z0-9_]*?(?:api[_-]?key|token|secret|password)['\"]\s*:\s*['\"])[^'\"]+(['\"])",
     re.I,
 )
+# matches:   os.environ["COMET_API_KEY"] = "value"
+ENV_KEY_RE = re.compile(
+    r"(\bos\.environ\[[^\]]*(?:KEY|TOKEN|SECRET|PASSWORD)[^\]]*\]\s*=\s*['\"])[^'\"]+(['\"])",
+    re.I,
+)
+# matches any identifier containing a key-word assigned a long literal:
+#   my_api_key = "abcd1234..."  /  COMET_KEY='...'
+GEN_KEY_RE = re.compile(
+    r"([A-Za-z_][A-Za-z0-9_]*(?:KEY|TOKEN|SECRET|PASSWORD)[A-Za-z0-9_]*\s*=\s*['\"])[A-Za-z0-9_\-]{16,}(['\"])",
+    re.I,
+)
 
 # patterns used for the final verification pass
 LEFT_PATTERNS = [
     r'COMET_API_KEY\s*=\s*"[^"]+"',
     r'(?i)[A-Za-z0-9_]*(?:api[_-]?key|token|secret|password)\s*[=:]\s*["\'][A-Za-z0-9]{8,}["\']',
+    r'(?i)os\.environ\[[^\]]*(?:key|token|secret|password)[^\]]*\]\s*=\s*["\'][^"\']+["\']',
 ]
 
 
@@ -43,7 +55,9 @@ def blank_secrets(text):
 
     text, n1 = KEY_LITERAL_RE.subn(_blank, text)
     text, n2 = DICT_KEY_RE.subn(_blank, text)
-    return text, n1 + n2
+    text, n3 = ENV_KEY_RE.subn(_blank, text)
+    text, n4 = GEN_KEY_RE.subn(_blank, text)
+    return text, n1 + n2 + n3 + n4
 
 
 def clean(path):
