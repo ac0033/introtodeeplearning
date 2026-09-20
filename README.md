@@ -1,3 +1,11 @@
+> **关于这个 fork**　本仓库 fork 自 [MITDeepLearning/introtodeeplearning](https://github.com/MITDeepLearning/introtodeeplearning)，
+> 用于记录个人完成 MIT 6.S191 实验的过程。已完成：**Lab 1 Part 2 — 音乐生成（PyTorch）**，在 Colab 上运行，
+> notebook 输出已剥离、API key 从环境变量/Colab secrets 读取，不写入代码。
+> 上游内容与许可（MIT License）保持不变；本人新增的代码同样以 MIT License 授权。
+> 本仓库为个人学习记录，**声明**：不代表课程官方，也不用于任何作业提交。
+
+---
+
 [![banner](assets/banner.png)](http://introtodeeplearning.com)
 
 This repository contains all of the code and software labs for [MIT Introduction to Deep Learning](http://introtodeeplearning.com)! All lecture slides and videos are available on the program website.
